@@ -151,6 +151,7 @@ body {
 	}
 	// Operations
 	function _saveFile(){
+		$('#sbtn').prop('disabled',true);
 		$('#stl').html("Saving file, please wait...");
 		var __updateFile = function(id, text, fname){
 			const boundary = '-------314159265358979323846';
@@ -177,7 +178,10 @@ body {
 					uiShowDesktop();
 					uiHideWait();
 					$('#stl').html("File saved.");
-					setTimeout(function(){$('#stl').html("")},1000);
+					setTimeout(function(){
+						$('#stl').html("");
+						$('#sbtn').prop('disabled',false);
+					},1000);
 				}); 
 		};	
 		var name = $('#fn').val();
@@ -194,7 +198,8 @@ body {
 				__updateFile(resp.result.id,content);
 			}).catch(function(err){
 				console.log(err);
-				alert("Error! See console for details.");			
+				alert("Error! See console for details.");
+				$('#sbtn').prop('disabled',true);
 			});		
 		} else {
 			__updateFile(id,content,name);
@@ -238,7 +243,8 @@ body {
 <div id="wait" class="wt fnt">Please wait...</div>
 <div id="desktop" class="dsk">
 	<div class="top fnt">
-		<input id="fn" class="fn fnt" type="text" size="32" placeholder="Filename..."><button class="fnt btn" onclick="_saveFile()">SAVE</button>
+		<input id="fn" class="fn fnt" type="text" size="32" placeholder="Filename..."></input>
+		<button id="sbtn" class="fnt btn" onclick="_saveFile()">SAVE</button>
 	</div>
 	<textarea id="ct" class="ct fnt" placeholder="Content..."></textarea>
 	<div class="bot fnt">
