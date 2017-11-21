@@ -169,3 +169,7 @@ function uiShowDesktop(){
 function uiHideWait(){
   $('#wait').css("visibility","hidden");
 }
+
+// Export ******************************************
+
+module.exports = _saveFile;
