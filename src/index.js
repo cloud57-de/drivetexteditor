@@ -157,7 +157,7 @@ function _showContent(id){
     url: "https://www.googleapis.com/drive/v3/files/"+id+"?alt=media",
     headers : {"Authorization":"Bearer " + token}
   }).then(function(data){
-    // $('#ct').val(data);
+    //  $('#ct').val(data);
     editor.setValue(data);
     uiShowDesktop();
     uiHideWait();

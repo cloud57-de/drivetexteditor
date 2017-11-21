@@ -70,12 +70,14 @@ body {
 }
 /* ACE */
 .ace_editor, .ace_editor * {
-    font-family: "Monaco", "Menlo", "Ubuntu Mono", "Droid Sans Mono", "Consolas", monospace !important;
-    font-size: 12px !important;
-    font-weight: 400 !important;
-    letter-spacing: 0 !important;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Droid Sans Mono", "Consolas", monospace !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
 }
 #editor {
-    border: solid 1px red;
-    font-family: monospace;
+  width:80%;
+  height:80%;
+  border: solid 1px red;
+  font-family: monospace;
 }
