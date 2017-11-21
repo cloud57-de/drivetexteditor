@@ -3,6 +3,7 @@
 var id = undefined;
 var token = undefined;
 var state = undefined;
+var editor = undefined;
 var gref = {
   "client_id":"758681145932-76cra1qkeomh8nd1qens6u2q317cqpfa.apps.googleusercontent.com",
   "discoveryDocs": ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
@@ -12,7 +13,7 @@ var gref = {
 
 $(function(){
   // ACE
-  var editor = ace.edit("aceeditor");
+  editor = ace.edit("editor");
   editor.renderer.setShowGutter(true);
   // JQuery extention
   $.urlParam = function(name){
@@ -118,7 +119,8 @@ function _saveFile(){
       });
   };
   var name = $('#fn').val();
-  var content = $('#ct').val();
+  // var content = $('#ct').val();
+  content = editor.getValue();
   var folderId = JSON.parse($.urlParam("state")).folderId;
   if(state.action=="create" && id==undefined){
     gapi.client.drive.files.create({
@@ -155,7 +157,8 @@ function _showContent(id){
     url: "https://www.googleapis.com/drive/v3/files/"+id+"?alt=media",
     headers : {"Authorization":"Bearer " + token}
   }).then(function(data){
-    $('#ct').val(data);
+    // $('#ct').val(data);
+    editor.setValue(data);
     uiShowDesktop();
     uiHideWait();
   }).catch(function(err){

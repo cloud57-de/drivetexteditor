@@ -75,7 +75,7 @@ body {
     font-weight: 400 !important;
     letter-spacing: 0 !important;
 }
-#aceeditor {
+#editor {
     border: solid 1px red;
     font-family: monospace;
 }
