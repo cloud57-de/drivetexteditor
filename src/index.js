@@ -15,6 +15,7 @@ $(function(){
   // ACE
   editor = ace.edit("editor");
   editor.renderer.setShowGutter(true);
+  editor.setOption("wrap", true);
   // JQuery extention
   $.urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
