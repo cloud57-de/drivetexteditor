@@ -7,6 +7,7 @@
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 		<link rel="stylesheet" href="default.css" />
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
 		<script src="https://apis.google.com/js/api.js"></script>
 		<script src="dte.js"></script>
 	</head>
@@ -16,7 +17,8 @@
 	<div class="top fnt">
 		<input id="fn" class="fn fnt" type="text" size="32" placeholder="Filename..."></input><button id="sbtn" class="fnt btn" onclick="window._saveFile()">SAVE</button>
 	</div>
-	<textarea id="ct" class="ct fnt" placeholder="Content..."></textarea>
+	<!--<textarea id="ct" class="ct fnt" placeholder="Content..."></textarea>-->
+	<div id="aceeditor"></div>
 	<div class="bot fnt">
 		<span id="stl" class="stl fnt red">&nbsp;</span>
 		<span id="str" class="str fnt">DriveTextEditor Prototype 2</span>

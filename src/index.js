@@ -11,6 +11,9 @@ var gref = {
 // Start/Entrypoint ******************************************
 
 $(function(){
+  // ACE
+  var editor = ace.edit("aceeditor");
+  editor.renderer.setShowGutter(true);
   // JQuery extention
   $.urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
