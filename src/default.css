@@ -70,7 +70,6 @@ body {
 }
 /* ACE */
 .ace_editor, .ace_editor * {
-  // font-family: "Monaco", "Menlo", "Ubuntu Mono", "Droid Sans Mono", "Consolas", monospace !important;
   font-family: Courier !important;
   font-size: 16px !important;
   font-weight: 400 !important;
