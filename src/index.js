@@ -170,6 +170,6 @@ function uiHideWait(){
   $('#wait').css("visibility","hidden");
 }
 
-// Export ******************************************
+// Export to global scope ******************************************
 
-module.exports = _saveFile;
+window._saveFile = _saveFile;
