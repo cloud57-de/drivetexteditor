@@ -79,6 +79,8 @@ function exe(){
   if(state.action=="create"){
     uiHideWait();
     uiShowDesktop();
+    editor.gotoLine(0);
+    editor.focus();
   }
 }
 
@@ -159,6 +161,8 @@ function _showContent(id){
   }).then(function(data){
     //  $('#ct').val(data);
     editor.setValue(data);
+    editor.gotoLine(0);
+    editor.focus();
     uiShowDesktop();
     uiHideWait();
   }).catch(function(err){
