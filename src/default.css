@@ -76,8 +76,9 @@ body {
   letter-spacing: 0 !important;
 }
 #editor {
-  width:80%;
-  height:80%;
+  position: relative;
+  width: 80%;
+  height: 80%;
   border: solid 1px red;
   font-family: monospace;
 }
