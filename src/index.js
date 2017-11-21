@@ -5,7 +5,7 @@ var token = undefined;
 var state = undefined;
 var editor = undefined;
 var gref = {
-  "client_id":"758681145932-76cra1qkeomh8nd1qens6u2q317cqpfa.apps.googleusercontent.com",
+  "client_id":"758681145932-be7pq7936jb71v6h23h2nen6ivak2vc2.apps.googleusercontent.com",
   "discoveryDocs": ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
 };
 
