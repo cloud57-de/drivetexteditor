@@ -1,11 +1,11 @@
 {
   "name": "drivetexteditor",
-  "version": "0.0.2",
-  "description": "Drive Text Editor Prototyp Version 0.0.2",
+  "version": "0.0.3",
+  "description": "Drive Text Editor Prototyp Version 0.0.3",
   "main": "index.js",
   "scripts": {
     "build": "webpack -p",
-    "dev": "webpack -d && webpack-dev-server --content-base src --inline --hot",
+    "dev": "webpack -d && webpack-dev-server --content-base src --inline --hot"
   },
   "repository": {
     "type": "git",
