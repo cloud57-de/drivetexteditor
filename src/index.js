@@ -5,183 +5,190 @@ var token = undefined;
 var state = undefined;
 var editor = undefined;
 var gref = {
-  "client_id":"758681145932-be7pq7936jb71v6h23h2nen6ivak2vc2.apps.googleusercontent.com",
-  "discoveryDocs": ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+    "client_id": "758681145932-be7pq7936jb71v6h23h2nen6ivak2vc2.apps.googleusercontent.com",
+    "discoveryDocs": ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
 };
+
+// Helper ******************************************
+
+function getParam(name) {
+    return (new URL(window.location.href)).searchParams.get(name);
+}
+
+function uiShowDesktop() {
+    $('#desktop').css("visibility", "visible");
+}
+
+function uiHideInfo() {
+    $('#info').css("visibility", "hidden");
+}
 
 // Start/Entrypoint ******************************************
 
-$(function(){
-  // ACE
-  editor = ace.edit("editor");
-  editor.renderer.setShowGutter(true);
-  editor.setOption("wrap", true);
-  editor.setOption("indentedSoftWrap", false);
-  // JQuery extention
-  $.urlParam = function(name){
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if (results==null){
-       return null;
+$(function() {
+    // ACE
+    editor = ace.edit("editor");
+    editor.renderer.setShowGutter(true);
+    editor.setOption("wrap", true);
+    editor.setOption("indentedSoftWrap", false);
+    // Export save function to global scope
+    window.saveFile = saveFile;
+    // Check params
+    state = getParam("state");
+    if (state == undefined) return;
+    $("#info").html("Please wait...");
+    if (state == "installation" || state == "Installation") {
+        gapi.load('client:auth2', initClientInstall);
+    } else {
+        gapi.load('client:auth2', initClient);
     }
-    else{
-       return decodeURI(results[1]) || 0;
-    }
-  }
-  // Check params
-  state = $.urlParam("state");
-  if(state==undefined){
-    gapi.load('client:auth2', initClientInstall);
-  } else {
-    gapi.load('client:auth2', initClient);
-  }
 })
 
-// Init ******************************************
+// Init and execute ******************************************
 
-function initClientInstall(){
-  gref.scope = "https://www.googleapis.com/auth/drive.install";
-  gapi.client.init(gref).then(function(){
-    gapi.auth2.getAuthInstance().signIn().then(function(){
-      $('#wait').html("Installation done.");
-    }).catch(function(err){
-      console.log(err)
-      alert("Error! See console for details.");
+function initClientInstall() {
+    gref.scope = "https://www.googleapis.com/auth/drive.install";
+    gapi.client.init(gref).then(function() {
+        gapi.auth2.getAuthInstance().signIn().then(function() {
+            $('#info').html("Installation done.");
+        }).catch(function(err) {
+            $("#info").html("Installation error! " + err.error);
+            console.log(err);
+        });
+    }).catch(function(err) {
+        $("#info").html("Installation error! " + err.error);
+        console.log(err);
     });
-  }).catch(function(err){
-    console.log(err);
-    alert("Error! See console for details.");
-  });
 };
-function initClient(){
-  gref.scope = "https://www.googleapis.com/auth/drive";
-  gapi.client.init(gref).then(function(){
-    if(gapi.auth2.getAuthInstance().currentUser.get().isSignedIn()){
-      exe();
-    } else {
-      gapi.auth2.getAuthInstance().signIn().then(function(){
-        exe();
-      }).catch(function(err){
-        console.log(err)
-        alert("Error! See console for details.");
-      });
-    }
-  }).catch(function(err){
-    console.log(err);
-    alert("Error! See console for details.");
-  });
+
+function initClient() {
+    gref.scope = "https://www.googleapis.com/auth/drive";
+    gapi.client.init(gref).then(function() {
+        if (gapi.auth2.getAuthInstance().currentUser.get().isSignedIn()) {
+            exe();
+        } else {
+            gapi.auth2.getAuthInstance().signIn().then(function() {
+                exe();
+            }).catch(function(err) {
+                $("#info").html("Error! See console for details.");
+                console.log(err);
+            });
+        }
+    }).catch(function(err) {
+        $("#info").html("Error! See console for details.");
+        console.log(err);
+    });
 }
-function exe(){
-  token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse(true).access_token;
-  state = JSON.parse($.urlParam("state"));
-  if (state==undefined) return;
-  if(state.action=="open"){
-    id = state.ids[0];
-    _showContent(id);
-  } else
-  if(state.action=="create"){
-    uiHideWait();
-    uiShowDesktop();
-    editor.gotoLine(0);
-    editor.focus();
-  }
+
+function exe() {
+    token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse(true).access_token;
+    state = JSON.parse(getParam("state"));
+    if (state == undefined) return;
+    if (state.action == "open") {
+        id = state.ids[0];
+        showContent(id);
+    } else
+    if (state.action == "create") {
+        uiHideInfo();
+        uiShowDesktop();
+        editor.gotoLine(0);
+        editor.focus();
+    }
 }
 
 // Operations ******************************************
 
-function _saveFile(){
-  $('#sbtn').prop('disabled',true);
-  $('#stl').html("Saving file, please wait...");
-  var __updateFile = function(id, text, fname){
+function showContent(id) {
+    // Get filename
+    gapi.client.drive.files.get({
+        fileId: id,
+        fields: 'name'
+    }).then(function(resp) {
+        var name = JSON.parse(resp.body).name;
+        $('#fn').val(name);
+    }).catch(function(err) {
+        console.log(err);
+        alert("Error! See console for details.");
+    });
+    // Get content
+    $.ajax({
+        url: "https://www.googleapis.com/drive/v3/files/" + id + "?alt=media",
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    }).then(function(data) {
+        editor.setValue(data);
+        editor.gotoLine(0);
+        editor.focus();
+        uiShowDesktop();
+        uiHideInfo();
+    }).catch(function(err) {
+        console.log(err);
+        alert("Error! See console for details.");
+    });
+}
+
+function saveFile() {
+    $('#sbtn').prop('disabled', true);
+    $('#stl').html("Saving file, please wait...");
+    var name = $('#fn').val();
+    content = editor.getValue();
+    var folderId = JSON.parse(getParam("state")).folderId;
+    if (state.action == "create" && id == undefined) {
+        gapi.client.drive.files.create({
+            "name": name,
+            "mimeType": "text/plain",
+            "fields": "id",
+            "parents": [folderId]
+        }).then(function(resp) {
+            id = resp.result.id;
+            updateFile(resp.result.id, content);
+        }).catch(function(err) {
+            console.log(err);
+            alert("Error! See console for details.");
+            $('#sbtn').prop('disabled', true);
+        });
+    } else {
+        updateFile(id, content, name);
+    }
+}
+
+function updateFile(id, text, name) {
     const boundary = '-------314159265358979323846';
     const delimiter = "\r\n--" + boundary + "\r\n";
     const close_delim = "\r\n--" + boundary + "--";
     var metadata = {
-      description : 'n/a',
-      'mimeType': 'text/plain',
-      'name' : fname
+        description: 'n/a',
+        'mimeType': 'text/plain',
+        'name': name
     };
     var multipartRequestBody =
-      delimiter +  'Content-Type: application/json\r\n\r\n' +
-      JSON.stringify(metadata) +
-      delimiter + 'Content-Type: application/json\r\n\r\n' +
-      text +
-      close_delim;
-      gapi.client.request({
-        'path': '/upload/drive/v3/files/'+id,
+        delimiter + 'Content-Type: application/json\r\n\r\n' +
+        JSON.stringify(metadata) +
+        delimiter + 'Content-Type: application/json\r\n\r\n' +
+        text +
+        close_delim;
+    gapi.client.request({
+        'path': '/upload/drive/v3/files/' + id,
         'method': 'PATCH',
-        'params': {'fileId': id, 'uploadType': 'multipart'},
-        'headers': { 'Content-Type': 'multipart/form-data; boundary="' + boundary + '"', 'Authorization': 'Bearer ' + token },
+        'params': {
+            'fileId': id,
+            'uploadType': 'multipart'
+        },
+        'headers': {
+            'Content-Type': 'multipart/form-data; boundary="' + boundary + '"',
+            'Authorization': 'Bearer ' + token
+        },
         'body': multipartRequestBody
-      }).execute(function(file){
+    }).execute(function(file) {
         uiShowDesktop();
-        uiHideWait();
+        uiHideInfo();
         $('#stl').html("File saved.");
-        setTimeout(function(){
-          $('#stl').html("");
-          $('#sbtn').prop('disabled',false);
-        },1000);
-      });
-  };
-  var name = $('#fn').val();
-  // var content = $('#ct').val();
-  content = editor.getValue();
-  var folderId = JSON.parse($.urlParam("state")).folderId;
-  if(state.action=="create" && id==undefined){
-    gapi.client.drive.files.create({
-      "name" : name,
-      "mimeType" : "text/plain",
-      "fields" : "id",
-      "parents" : [folderId]
-    }).then(function(resp){
-      id = resp.result.id;
-      __updateFile(resp.result.id,content);
-    }).catch(function(err){
-      console.log(err);
-      alert("Error! See console for details.");
-      $('#sbtn').prop('disabled',true);
+        setTimeout(function() {
+            $('#stl').html("");
+            $('#sbtn').prop('disabled', false);
+        }, 1000);
     });
-  } else {
-    __updateFile(id,content,name);
-  }
-}
-function _showContent(id){
-  // Get filename
-  gapi.client.drive.files.get({
-    fileId: id,
-    fields: 'name'
-  }).then(function(resp){
-    var name = JSON.parse(resp.body).name;
-    $('#fn').val(name);
-  }).catch(function(err){
-    console.log(err);
-    alert("Error! See console for details.");
-  });
-  // Get content
-  $.ajax({
-    url: "https://www.googleapis.com/drive/v3/files/"+id+"?alt=media",
-    headers : {"Authorization":"Bearer " + token}
-  }).then(function(data){
-    //  $('#ct').val(data);
-    editor.setValue(data);
-    editor.gotoLine(0);
-    editor.focus();
-    uiShowDesktop();
-    uiHideWait();
-  }).catch(function(err){
-    console.log(err);
-    alert("Error! See console for details.");
-  });
-}
+};
 
-// UI ******************************************
-
-function uiShowDesktop(){
-  $('#desktop').css("visibility","visible");
-}
-function uiHideWait(){
-  $('#wait').css("visibility","hidden");
-}
-
-// Export to global scope ******************************************
-
-window._saveFile = _saveFile;
+// EOF ******************************************

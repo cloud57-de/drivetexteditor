@@ -1,95 +1,95 @@
-/* Main */
 body {
-  background-color:#e0e0e0;
+    background-color: #e0e0e0;
 }
-.fnt{
-  font-family : courier;
-  font-size : 16px;
+
+.fnt {
+    font-family: courier;
+    font-size: 16px;
 }
-.red{
-  color:#ff0000;
+
+.red {
+    color: #ff0000;
 }
-.wt{
-  position:fixed;
-  top: 50%;
-  left: 50%;
-  width:200px;
-  margin-left:-100px;
-  text-align : center;
-  visibility : visible;
+
+.wt {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    margin-left: -200px;
+    text-align: center;
+    visibility: visible;
 }
-.dsk{
-  position:absolute;
-  top:0;
-  left:0;
-  bottom:0;
-  right:0;
-  width:80%;
-  height:80%;
-  margin:auto;
-  visibility:hidden;
+
+.dsk {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    visibility: hidden;
 }
-.fn{
-  border: solid 1px #808080;
-  padding:4px;
-  margin-right:4px;
+
+.fn {
+    border: solid 1px #808080;
+    padding: 4px;
+    margin-right: 4px;
 }
-.ct{
-  position:relative;
-  top:0px;
-  left:0px;
-  bottom:0px;
-  right:0px;
-  width:100%;
-  height:90%;
-  margin:auto;
-  padding:8px;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  border: solid 1px #808080;
-  resize : none;
+
+.btn {
+    padding: 4px;
+    border: solid 1px #808080;
 }
-.btn{
-  padding:4px;
-  border:solid 1px #808080;
+
+.btn:hover {
+    cursor: pointer;
 }
-.top{
-  position:relative;
-  text-align:right;
-  margin-bottom:4px;
+
+.top {
+    position: relative;
+    text-align: right;
+    margin-bottom: 4px;
 }
-.bot{
-  margin-top:4px;
+
+.bot {
+    margin-top: 4px;
 }
-.stl{
-  float:left;
+
+.stl {
+    float: left;
 }
-.str{
-  float:right;
+
+.str {
+    float: right;
 }
+
 /* ACE */
+
 .ace_editor, .ace_editor * {
-  font-family: Courier !important;
-  font-size: 16px !important;
-  font-weight: 400 !important;
-  letter-spacing: 0 !important;
+    font-family: Courier !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    letter-spacing: 0 !important;
 }
+
 #editor {
-  position: relative;
-  width:100%;
-  height:90%;
-  top:0px;
-  left:0px;
-  bottom:0px;
-  right:0px;
-  margin:auto;
-  padding:8px;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  border: solid 1px #808080;
-  resize : none;
-  font-family: courier;
-  font-size: 16px;
+    position: relative;
+    width: 100%;
+    height: 90%;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    margin: auto;
+    padding: 8px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border: solid 1px #808080;
+    resize: none;
+    font-family: courier;
+    font-size: 16px;
 }
