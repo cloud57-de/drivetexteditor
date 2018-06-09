@@ -2,27 +2,68 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>DriveTextEditor (Prototype 4)</title>
+	<title>Cloud57 Texteditor</title>
 	<link rel="icon" href="favicon.ico" type="image/x-icon" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-	<link rel="stylesheet" href="default.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
 	<script src="https://apis.google.com/js/api.js"></script>
 	<script src="dte.js"></script>
+	<link rel="stylesheet" href="default.css" />
 </head>
 <body>
-	<div id="info" class="wt fnt"></div>
-	<div id="desktop" class="dsk">
-		<div class="top fnt">
-			<input id="fn" class="fn fnt" type="text" size="32" placeholder="Filename..."></input><button id="sbtn" class="fnt btn" onclick="window.saveFile()">SAVE</button>
-		</div>
-		<div id="editor"></div>
-		<div class="bot fnt">
-			<span id="stl" class="stl fnt red">&nbsp;</span>
-			<span id="str" class="str fnt">DriveTextEditor Prototype 4</span>
+	<div id="temain">
+		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+			<header class="mdl-layout__header">
+			      <div class="mdl-layout__header-row headerbgc">
+				        <div id="title">
+							<span class="mdl-layout-title">Cloud57 Texteditor</span>
+						</div>
+				        <div class="mdl-layout-spacer"></div>
+						<div class="mdl-textfield mdl-js-textfield">
+						    <input class="mdl-textfield__input tffn" type="text" id="fn">
+					    </div>
+						<div>&nbsp;&nbsp;&nbsp;</div>
+				        <div id="actions">
+						  <button id="sbtn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect sbtn" onclick="window.saveFile()">
+							  SAVE
+						  </button>
+						  <div class="mdl-tooltip" for="bt_save_svg">Save your changes</div>
+					  	</div>
+				        <div class="mdl-layout-spacer"></div>
+				        <div id="userprofile">
+				          <img id="userimage" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"></img>
+				        </div>
+			      </div>
+		    </header>
+			<main class="mdl-layout__content">
+				<div id="info" class="wt fnt"></div>
+				<div id="desktop">
+					<div id="editor"></div>
+				</div>
+			</main>
+			<footer class="mdl-mini-footer footerbgc">
+				<div class="mdl-mini-footer__left-section">
+				    <ul class="mdl-mini-footer__link-list">
+				    	<li>
+							<a href="https://www.cloud57.de" class="footer-nav">Powered by Cloud 57</a>
+						</li>
+						<li>
+							<span id="stl" class="stl red">&nbsp;</span>
+						</li>
+				    </ul>
+				</div>
+				<div class="mdl-mini-footer__right-section">
+					<ul class="mdl-mini-footer__link-list">
+				    	<li><a href="#" class="footer-nav" onclick="window.showImpDs()">Impressum | Datenschutz</a></li>
+				  	</ul>
+				</div>
+			</footer>
 		</div>
 	</div>
 </body>
-
 </html>

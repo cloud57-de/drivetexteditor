@@ -23,6 +23,29 @@ function uiHideInfo() {
     $('#info').css("visibility", "hidden");
 }
 
+function uiReset(){
+    $('#impds').remove();
+    $('#temain').css("visibility","visible");
+    $('#editor').css("visibility","visible");
+    editor.focus();
+}
+
+function showImpDs(){
+    var url = "https://www.cloud57.de/index.html";
+    $.get(url, function(data){
+        var doc = $.parseHTML(data);
+        var imp = $(doc).find("#modalimpressum");
+        $('#temain').css("visibility","hidden");
+        $('#editor').css("visibility","hidden");
+        $('body').append("<div id='impds' class='impds'></div>");
+        $('#impds').append(imp);
+        $('#closeimpressum').remove();
+        $('#modalimpressum').prepend("<h1>Impressum | Datenschutz</h1>");
+        $('#modalimpressum').prepend("<a href='javascript:window.uiReset();'>Zurück</a>");
+        $('#modalimpressum').css("margin","16px");
+    });
+}
+
 // Start/Entrypoint ******************************************
 
 $(function() {
@@ -31,8 +54,10 @@ $(function() {
     editor.renderer.setShowGutter(true);
     editor.setOption("wrap", true);
     editor.setOption("indentedSoftWrap", false);
-    // Export save function to global scope
+    // Export some functions
     window.saveFile = saveFile;
+    window.showImpDs = showImpDs;
+    window.uiReset = uiReset;
     // Check params
     state = getParam("state");
     if (state == undefined) return;
@@ -81,6 +106,9 @@ function initClient() {
 }
 
 function exe() {
+    // User
+    $('#userimage').attr("src",gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getImageUrl());
+    // Misc
     token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse(true).access_token;
     state = JSON.parse(getParam("state"));
     if (state == undefined) return;
@@ -185,7 +213,7 @@ function updateFile(id, text, name) {
         uiHideInfo();
         $('#stl').html("File saved.");
         setTimeout(function() {
-            $('#stl').html("");
+            $('#stl').html("&nbsp;");
             $('#sbtn').prop('disabled', false);
         }, 1000);
     });
