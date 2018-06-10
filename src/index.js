@@ -23,29 +23,6 @@ function uiHideInfo() {
     $('#info').css("visibility", "hidden");
 }
 
-function uiReset(){
-    $('#impds').remove();
-    $('#temain').css("visibility","visible");
-    $('#editor').css("visibility","visible");
-    editor.focus();
-}
-
-function showImpDs(){
-    var url = "https://www.cloud57.de/index.html";
-    $.get(url, function(data){
-        var doc = $.parseHTML(data);
-        var imp = $(doc).find("#modalimpressum");
-        $('#temain').css("visibility","hidden");
-        $('#editor').css("visibility","hidden");
-        $('body').append("<div id='impds' class='impds'></div>");
-        $('#impds').append(imp);
-        $('#closeimpressum').remove();
-        $('#modalimpressum').prepend("<h1>Impressum | Datenschutz</h1>");
-        $('#modalimpressum').prepend("<a href='javascript:window.uiReset();'>Zurück</a>");
-        $('#modalimpressum').css("margin","16px");
-    });
-}
-
 // Start/Entrypoint ******************************************
 
 $(function() {
@@ -54,10 +31,8 @@ $(function() {
     editor.renderer.setShowGutter(true);
     editor.setOption("wrap", true);
     editor.setOption("indentedSoftWrap", false);
-    // Export some functions
+    // Export functions
     window.saveFile = saveFile;
-    window.showImpDs = showImpDs;
-    window.uiReset = uiReset;
     // Check params
     state = getParam("state");
     if (state == undefined) return;
