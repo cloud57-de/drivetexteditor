@@ -83,8 +83,6 @@ function initClient() {
 }
 
 function exe() {
-    // Editor
-    $('#editor').css("visibility","visible");
     // User
     $('#userimage').attr("src",gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getImageUrl());
     // Misc
@@ -100,6 +98,7 @@ function exe() {
         uiShowDesktop();
         editor.gotoLine(0);
         editor.focus();
+        $('#editor').css("visibility","visible");
     }
 }
 
@@ -127,6 +126,7 @@ function showContent(id) {
         editor.setValue(data);
         editor.gotoLine(0);
         editor.focus();
+        $('#editor').css("visibility","visible");
         uiShowDesktop();
         uiHideInfo();
     }).catch(function(err) {
