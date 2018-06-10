@@ -27,6 +27,7 @@ function uiHideInfo() {
 
 $(function() {
     // ACE
+    $('#editor').css("visibility","hidden");
     editor = ace.edit("editor");
     editor.renderer.setShowGutter(true);
     editor.setOption("wrap", true);
@@ -47,6 +48,7 @@ $(function() {
 // Init and execute ******************************************
 
 function initClientInstall() {
+    $('#sbtn').prop('disabled', true);
     gref.scope = "https://www.googleapis.com/auth/drive.install";
     gapi.client.init(gref).then(function() {
         gapi.auth2.getAuthInstance().signIn().then(function() {
@@ -81,6 +83,8 @@ function initClient() {
 }
 
 function exe() {
+    // Editor
+    $('#editor').css("visibility","visible");
     // User
     $('#userimage').attr("src",gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getImageUrl());
     // Misc
