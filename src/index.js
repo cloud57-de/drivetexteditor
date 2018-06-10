@@ -99,6 +99,7 @@ function exe() {
         editor.gotoLine(0);
         editor.focus();
         $('#editor').css("visibility","visible");
+        editor.resize();
     }
 }
 
@@ -129,6 +130,7 @@ function showContent(id) {
         $('#editor').css("visibility","visible");
         uiShowDesktop();
         uiHideInfo();
+        editor.resize();
     }).catch(function(err) {
         console.log(err);
         alert("Error! See console for details.");
