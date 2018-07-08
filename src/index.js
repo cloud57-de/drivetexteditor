@@ -23,6 +23,10 @@ function uiHideInfo() {
     $('#info').css("visibility", "hidden");
 }
 
+function focusEditor() {
+    editor.focus();
+}
+
 // Start/Entrypoint ******************************************
 
 $(function() {
@@ -36,6 +40,7 @@ $(function() {
     editor.setOption("indentedSoftWrap", false);
     // Export functions
     window.saveFile = saveFile;
+    window.focusEditor = focusEditor;
     // Check params
     state = getParam("state");
     if (state == undefined){
