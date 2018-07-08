@@ -26,18 +26,21 @@ function uiHideInfo() {
 // Start/Entrypoint ******************************************
 
 $(function() {
+    $("#info").html("Please wait...");
     // ACE
     $('#editor').css("visibility","hidden");
     editor = ace.edit("editor");
     editor.renderer.setShowGutter(true);
+    editor.setShowPrintMargin(false);
     editor.setOption("wrap", true);
     editor.setOption("indentedSoftWrap", false);
     // Export functions
     window.saveFile = saveFile;
     // Check params
     state = getParam("state");
-    if (state == undefined) return;
-    $("#info").html("Please wait...");
+    if (state == undefined){
+        initClientStandalone();
+    };
     if (state == "installation" || state == "Installation") {
         gapi.load('client:auth2', initClientInstall);
     } else {
@@ -80,6 +83,21 @@ function initClient() {
         $("#info").html("Error! See console for details.");
         console.log(err);
     });
+}
+
+function initClientStandalone() {
+    uiHideInfo();
+    uiShowDesktop();
+    editor.gotoLine(0);
+    editor.focus();
+    $('#editor').css("visibility","visible");
+    setTimeout(function(){editor.resize()},128);
+    $('#sbtn').prop('disabled', true);
+    $('#fn').prop('disabled', true);
+    $('#fn').prop('disabled', true);
+    $('#stl').html("Standalone-mode");
+    var dialog = $('#dialog');
+    dialog.show();
 }
 
 function exe() {
