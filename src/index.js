@@ -44,8 +44,9 @@ $(function() {
     // Check params
     state = getParam("state");
     if (state == undefined){
+        $('#userprofile').remove();
         initClientStandalone();
-    };
+    } else
     if (state == "installation" || state == "Installation") {
         gapi.load('client:auth2', initClientInstall);
     } else {
