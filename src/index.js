@@ -1,3 +1,7 @@
+// Imports ******************************************
+
+import DriveAppsUtil from 'drive-apps-util';
+
 // Data ******************************************
 
 var id = undefined;
@@ -7,6 +11,16 @@ var editor = undefined;
 var gref = {
     "client_id": "758681145932-be7pq7936jb71v6h23h2nen6ivak2vc2.apps.googleusercontent.com",
     "discoveryDocs": ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+};
+
+var options = {
+  "clientId": "758681145932-be7pq7936jb71v6h23h2nen6ivak2vc2.apps.googleusercontent.com",
+  "scope": [
+    "profile",
+    "https://www.googleapis.com/auth/drive.metadata",
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive.install"
+  ]
 };
 
 // Helper ******************************************
@@ -47,7 +61,10 @@ $(function() {
         $('#userprofile').remove();
         initClientStandalone();
     } else
-    if (state == "installation" || state == "Installation") {
+    if (state == "newinstall"){
+        new_initClientInstall(); // New installation using Utilities for Drive Apps
+    } else
+    if (state == "installation" || state == "Installation" || state == "install" || state == "Install") {
         gapi.load('client:auth2', initClientInstall);
     } else {
         gapi.load('client:auth2', initClient);
@@ -71,6 +88,17 @@ function initClientInstall() {
         console.log(err);
     });
 };
+
+// New installation using Utilities for Drive Apps
+function new_initClientInstall(){
+    $('#sbtn').prop('disabled', true);
+    let driveAppsUtil = new DriveAppsUtil(options);
+    driveAppsUtil.init().then(function(){
+        driveAppsUtil.login().then(function(user){
+            $('#info').html("Installation done.");
+        })
+    })
+}
 
 function initClient() {
     gref.scope = "https://www.googleapis.com/auth/drive";
