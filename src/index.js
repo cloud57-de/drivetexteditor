@@ -37,14 +37,14 @@ function focusEditor() {
 
 function showLoginError(msg){
     if( msg == "popup_blocked_by_browser"){
-        $("#info").html("Login error!<br><span class='red'>" + err.error + "</span><br><br>Allow popups and redirects and reload page!");
+        $("#info").html("Login error!<br><span class='red'>" + msg + "</span><br><br>Allow popups and redirects and reload page!");
 
     } else
     if( msg == "popup_closed_by_user"){
-        $("#info").html("Login error!<br><span class='red'>" + err.error + "</span><br><br>Reload page and do not close popup!");
+        $("#info").html("Login error!<br><span class='red'>" + msg + "</span><br><br>Reload page and do not close popup!");
     } else
     if( msg == "access_denied"){
-        $("#info").html("Login error!<br><span class='red'>" + err.error + "</span><br><br>Wrong password or login process canceled!");
+        $("#info").html("Login error!<br><span class='red'>" + msg + "</span><br><br>Wrong password or login process canceled!");
     }
 }
 
