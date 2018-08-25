@@ -1,13 +1,21 @@
+// Imports ******************************************
+
+import DriveAppsUtil from 'drive-apps-util';
+
 // Data ******************************************
 
-var id = undefined;
-var token = undefined;
-var state = undefined;
-var editor = undefined;
-var gref = {
-    "client_id": "758681145932-be7pq7936jb71v6h23h2nen6ivak2vc2.apps.googleusercontent.com",
-    "discoveryDocs": ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+let id = undefined;
+let editor = undefined;
+let options = {
+  "clientId": "758681145932-be7pq7936jb71v6h23h2nen6ivak2vc2.apps.googleusercontent.com",
+  "scope": [
+    "profile",
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive.install",
+    "https://www.googleapis.com/auth/drive.metadata"
+  ]
 };
+let driveAppsUtil = new DriveAppsUtil(options);
 
 // Helper ******************************************
 
@@ -27,6 +35,19 @@ function focusEditor() {
     editor.focus();
 }
 
+function showLoginError(msg){
+    if( msg == "popup_blocked_by_browser"){
+        $("#info").html("Login error!<br><span class='red'>" + err.error + "</span><br><br>Allow popups and redirects and reload page!");
+
+    } else
+    if( msg == "popup_closed_by_user"){
+        $("#info").html("Login error!<br><span class='red'>" + err.error + "</span><br><br>Reload page and do not close popup!");
+    } else
+    if( msg == "access_denied"){
+        $("#info").html("Login error!<br><span class='red'>" + err.error + "</span><br><br>Wrong password or login process canceled!");
+    }
+}
+
 // Start/Entrypoint ******************************************
 
 $(function() {
@@ -42,54 +63,19 @@ $(function() {
     window.saveFile = saveFile;
     window.focusEditor = focusEditor;
     // Check params
-    state = getParam("state");
+    let state = getParam("state");
     if (state == undefined){
         $('#userprofile').remove();
         initClientStandalone();
     } else
-    if (state == "installation" || state == "Installation") {
-        gapi.load('client:auth2', initClientInstall);
+    if (state == "installation" || state == "Installation" || state == "install" || state == "Install") {
+        initClientInstall();
     } else {
-        gapi.load('client:auth2', initClient);
+        initClientStandard();
     }
 })
 
 // Init and execute ******************************************
-
-function initClientInstall() {
-    $('#sbtn').prop('disabled', true);
-    gref.scope = "https://www.googleapis.com/auth/drive.install";
-    gapi.client.init(gref).then(function() {
-        gapi.auth2.getAuthInstance().signIn().then(function() {
-            $('#info').html("Installation done.");
-        }).catch(function(err) {
-            $("#info").html("Installation error! " + err.error);
-            console.log(err);
-        });
-    }).catch(function(err) {
-        $("#info").html("Installation error! " + err.error);
-        console.log(err);
-    });
-};
-
-function initClient() {
-    gref.scope = "https://www.googleapis.com/auth/drive";
-    gapi.client.init(gref).then(function() {
-        if (gapi.auth2.getAuthInstance().currentUser.get().isSignedIn()) {
-            exe();
-        } else {
-            gapi.auth2.getAuthInstance().signIn().then(function() {
-                exe();
-            }).catch(function(err) {
-                $("#info").html("Error! See console for details.");
-                console.log(err);
-            });
-        }
-    }).catch(function(err) {
-        $("#info").html("Error! See console for details.");
-        console.log(err);
-    });
-}
 
 function initClientStandalone() {
     uiHideInfo();
@@ -102,126 +88,134 @@ function initClientStandalone() {
     $('#fn').prop('disabled', true);
     $('#fn').prop('disabled', true);
     $('#stl').html("Standalone-mode");
-    var dialog = $('#dialog');
+    let dialog = $('#dialog');
     dialog.show();
+}
+
+function initClientInstall(){
+    $('#sbtn').prop('disabled', true);
+    driveAppsUtil.init().then(function(){
+        driveAppsUtil.login().then(function(user){
+            $('#info').html("Installation done.");
+        }).catch(function(err){
+            showLoginError(err.error);
+            console.log(err);
+        })
+    }).catch(function(err){
+        $("#info").html("Initialization error!<br><span class='red'>" + err.error + "</span>");
+        console.log(err);
+    })
+}
+
+function initClientStandard(){
+    driveAppsUtil.init().then(function(){
+        driveAppsUtil.login().then(function(user){
+            exe();
+        }).catch(function(err){
+            showLoginError(err.error);
+            console.log(err);
+        })
+    }).catch(function(err){
+        $("#info").html("Initialization error!<br><span class='red'>" + err.error + "</span>");
+        console.log(err);
+    });
 }
 
 function exe() {
     // User
     $('#userimage').attr("src",gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getImageUrl());
     // Misc
-    token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse(true).access_token;
-    state = JSON.parse(getParam("state"));
+    let state = JSON.parse(getParam("state"));
     if (state == undefined) return;
     if (state.action == "open") {
         id = state.ids[0];
-        showContent(id);
+        showContent();
     } else
     if (state.action == "create") {
-        uiHideInfo();
-        uiShowDesktop();
-        editor.gotoLine(0);
-        editor.focus();
-        $('#editor').css("visibility","visible");
-        setTimeout(function(){editor.resize()},128);
+        id = state.folderId;
+        createFile();
     }
 }
 
 // Operations ******************************************
 
-function showContent(id) {
-    // Get filename
-    gapi.client.drive.files.get({
-        fileId: id,
-        fields: 'name'
-    }).then(function(resp) {
-        var name = JSON.parse(resp.body).name;
-        $('#fn').val(name);
-    }).catch(function(err) {
-        console.log(err);
-        alert("Error! See console for details.");
-    });
-    // Get content
-    $.ajax({
-        url: "https://www.googleapis.com/drive/v3/files/" + id + "?alt=media",
-        headers: {
-            "Authorization": "Bearer " + token
+function showContent() {
+    driveAppsUtil.getDocumentMeta(id).then(
+        function(metadata){
+            id = metadata.id;
+            $('#fn').val(metadata.name);
+            driveAppsUtil.getDocumentContent(id).then(
+                function(data){
+                    editor.setValue(data);
+                    editor.gotoLine(0);
+                    editor.focus();
+                    $('#editor').css("visibility","visible");
+                    uiShowDesktop();
+                    uiHideInfo();
+                    setTimeout(function(){editor.resize()},128);
+                },
+                function(err){
+                    alert("Error! See console for details.");
+                    console.log(err);
+                }
+            );
+        },
+        function(err){
+            alert("Error! See console for details.");
+            console.log(err);
         }
-    }).then(function(data) {
-        editor.setValue(data);
-        editor.gotoLine(0);
-        editor.focus();
-        $('#editor').css("visibility","visible");
-        uiShowDesktop();
-        uiHideInfo();
-        setTimeout(function(){editor.resize()},128);
-    }).catch(function(err) {
-        console.log(err);
-        alert("Error! See console for details.");
-    });
+    );
 }
 
-function saveFile() {
+function createFile(){
+    let meta = {
+        mimeType : "text/plain",
+        name : "NewTextfile",
+        parents : [id]
+    };
+    $('#fn').val(meta.name);
+    driveAppsUtil.createDocument(meta,"").then(
+        function(resp){
+            id = resp.id;
+            uiHideInfo();
+            uiShowDesktop();
+            editor.gotoLine(0);
+            editor.focus();
+            $('#editor').css("visibility","visible");
+            setTimeout(function(){editor.resize()},128);
+        },
+        function(err){
+            id = undefined;
+            alert("Error! See console for details.");
+            console.log(err);
+        }
+    )
+}
+
+function saveFile(){
+    let currentname = $('#fn').val();
+    let meta = {
+        name : currentname,
+        mimeType : "text/plain"
+    }
+    let content = editor.getValue();
     $('#sbtn').prop('disabled', true);
     $('#stl').html("Saving file, please wait...");
-    var name = $('#fn').val();
-    content = editor.getValue();
-    var folderId = JSON.parse(getParam("state")).folderId;
-    if (state.action == "create" && id == undefined) {
-        gapi.client.drive.files.create({
-            "name": name,
-            "mimeType": "text/plain",
-            "fields": "id",
-            "parents": [folderId]
-        }).then(function(resp) {
-            id = resp.result.id;
-            updateFile(resp.result.id, content);
-        }).catch(function(err) {
-            console.log(err);
+    driveAppsUtil.updateDocument(id, JSON.stringify(meta), content).then(
+        function(resp){
+            uiShowDesktop();
+            uiHideInfo();
+            $('#stl').html("File saved.");
+            setTimeout(function() {
+                $('#stl').html("&nbsp;");
+                $('#sbtn').prop('disabled', false);
+            }, 1000);
+        },
+        function(err){
             alert("Error! See console for details.");
-            $('#sbtn').prop('disabled', true);
-        });
-    } else {
-        updateFile(id, content, name);
-    }
+            console.log(err);
+        }
+    )
 }
-
-function updateFile(id, text, name) {
-    const boundary = '-------314159265358979323846';
-    const delimiter = "\r\n--" + boundary + "\r\n";
-    const close_delim = "\r\n--" + boundary + "--";
-    var metadata = {
-        description: 'n/a',
-        'mimeType': 'text/plain',
-        'name': name
-    };
-    var multipartRequestBody =
-        delimiter + 'Content-Type: application/json\r\n\r\n' +
-        JSON.stringify(metadata) +
-        delimiter + 'Content-Type: application/json\r\n\r\n' +
-        text +
-        close_delim;
-    gapi.client.request({
-        'path': '/upload/drive/v3/files/' + id,
-        'method': 'PATCH',
-        'params': {
-            'fileId': id,
-            'uploadType': 'multipart'
-        },
-        'headers': {
-            'Content-Type': 'multipart/form-data; boundary="' + boundary + '"',
-            'Authorization': 'Bearer ' + token
-        },
-        'body': multipartRequestBody
-    }).execute(function(file) {
-        uiShowDesktop();
-        uiHideInfo();
-        $('#stl').html("File saved.");
-        setTimeout(function() {
-            $('#stl').html("&nbsp;");
-            $('#sbtn').prop('disabled', false);
-        }, 1000);
-    });
-};
 
 // EOF ******************************************
