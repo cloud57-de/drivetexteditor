@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Cloud57 TextEditor</title>
+	<title>Cloud57 Text Editor</title>
 	<link rel="icon" href="favicon.ico" type="image/x-icon" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -20,10 +20,11 @@
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			<header class="mdl-layout__header">
 			      <div class="mdl-layout__header-row headerbgc">
-				        <div id="title">
-							<span class="mdl-layout-title">Cloud57 TextEditor</span>
+				        <div id="title" class="ptr">
+							<span id="appname" class="mdl-layout-title">Cloud57 Text Editor</span>
+							<div class="mdl-tooltip mdl-tooltip--bottom" for="appname">Version 0.0.8</div>
 						</div>
-				        <div class="mdl-layout-spacer"></div>
+						<div class="mdl-layout-spacer"></div>
 						<div class="mdl-textfield mdl-js-textfield">
 						    <input class="mdl-textfield__input tffn" type="text" id="fn">
 					    </div>
@@ -51,12 +52,12 @@
 				  <h4 class="mdl-dialog__title">Information!</h4>
 				  <div class="mdl-dialog__content">
 					<p>
-					  You are using Cloud57 TextEditor Version 0.0.7 in standalone-mode.
-					  Therefore saving your content is not possible (at the moment).
+					  You are using Cloud57 Text Editor in standalone-mode.
+					  Saving your content is currently not possible.
 					</p>
 				  </div>
 				  <div class="mdl-dialog__actions">
-					<button type="button" class="mdl-button" onClick="$('#dialog').remove();focusEditor()">Close</button>
+					<button type="button" class="mdl-button" onClick="$('#editor').css('visibility','visible');$('#dialog').remove();focusEditor()">Open Text Editor</button>
 				  </div>
 				</dialog>
 			</main>
@@ -64,17 +65,21 @@
 				<div class="mdl-mini-footer__left-section">
 				    <ul class="mdl-mini-footer__link-list">
 				    	<li>
-							<a target="_blank" href="https://www.cloud57.de" class="footer-nav">Powered by Cloud 57</a> and <a target="_blank" href="https://ace.c9.io/">ACE</a>
+							<a id="lnkcloud57site" target="_blank" href="https://www.cloud57.de" class="footer-nav">Powered by Cloud 57</a> and <a id="lnkacesite" target="_blank" href="https://ace.c9.io/">ACE</a>
 						</li>
 						<li>
 							<span id="stl" class="stl red">&nbsp;</span>
 						</li>
 				    </ul>
+					<div class="mdl-tooltip mdl-tooltip--top" for="lnkcloud57site">Go to our website</div>
+					<div class="mdl-tooltip mdl-tooltip--top" for="lnkacesite">Go to the ACE website</div>
 				</div>
 				<div class="mdl-mini-footer__right-section">
 					<ul class="mdl-mini-footer__link-list">
-				    	<li><a href="https://www.cloud57.de/?showImp" class="footer-nav" target="_blank">Impressum | Datenschutz</a></li>
+				    	<li><a id="lnksupport" href="https://github.com/cloud57-de/drivetexteditor/issues" target="_blank">Support</a> | <a id="lnkimp" href="https://www.cloud57.de/?showImp" class="footer-nav" target="_blank">Impressum | Datenschutz</a></li>
 				  	</ul>
+					<div class="mdl-tooltip mdl-tooltip--top" for="lnksupport">Create new feature requests, bug reports or ask for help</div>
+					<div class="mdl-tooltip mdl-tooltip--top" for="lnkimp">Read our impress and about our data protection</div>
 				</div>
 			</footer>
 		</div>
