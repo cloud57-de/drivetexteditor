@@ -82,7 +82,7 @@ function initClientStandalone() {
     uiShowDesktop();
     editor.gotoLine(0);
     editor.focus();
-    $('#editor').css("visibility","visible");
+    $('#editor').css("visibility","hidden");
     setTimeout(function(){editor.resize()},128);
     $('#sbtn').prop('disabled', true);
     $('#fn').prop('disabled', true);

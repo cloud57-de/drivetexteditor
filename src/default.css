@@ -21,6 +21,10 @@ body {
     color: #ff0000;
 }
 
+.ptr {
+    cursor : pointer;
+}
+
 .wt {
     position: fixed;
     top: 50%;
