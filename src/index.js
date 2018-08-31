@@ -59,9 +59,15 @@ $(function() {
     editor.setShowPrintMargin(false);
     editor.setOption("wrap", true);
     editor.setOption("indentedSoftWrap", false);
-    // Export functions
-    window.saveFile = saveFile;
-    window.focusEditor = focusEditor;
+    // Bind functions
+    // Save...
+    $('#sbtn').bind("click",saveFile);
+    // Open...
+    $("#opentexteditor").bind("click",function(){
+        $('#editor').css('visibility','visible');
+        $('#dialog').remove();
+        focusEditor()
+    })
     // Check params
     let state = getParam("state");
     if (state == undefined){
