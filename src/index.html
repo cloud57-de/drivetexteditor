@@ -22,7 +22,7 @@
 			      <div class="mdl-layout__header-row headerbgc">
 				        <div id="title" class="ptr">
 							<span id="appname" class="mdl-layout-title">Cloud57 Text Editor</span>
-							<div class="mdl-tooltip mdl-tooltip--bottom" for="appname">Version 0.0.8</div>
+							<div class="mdl-tooltip mdl-tooltip--bottom" for="appname">Version 0.0.9</div>
 						</div>
 						<div class="mdl-layout-spacer"></div>
 						<div class="mdl-textfield mdl-js-textfield">
@@ -30,7 +30,7 @@
 					    </div>
 						<div>&nbsp;&nbsp;&nbsp;</div>
 				        <div id="actions">
-						  <button id="sbtn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect sbtn" onclick="window.saveFile()">
+						  <button id="sbtn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect sbtn">
 							  SAVE
 						  </button>
 						  <div class="mdl-tooltip" for="bt_save_svg">Save your changes</div>
@@ -57,7 +57,7 @@
 					</p>
 				  </div>
 				  <div class="mdl-dialog__actions">
-					<button type="button" class="mdl-button" onClick="$('#editor').css('visibility','visible');$('#dialog').remove();focusEditor()">Open Text Editor</button>
+					<button id="opentexteditor" type="button" class="mdl-button">Open Text Editor</button>
 				  </div>
 				</dialog>
 			</main>
