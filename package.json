@@ -1,7 +1,7 @@
 {
   "name": "drivetexteditor",
-  "version": "0.0.9",
-  "description": "Cloud57 Text Editor (drivetexteditor) Version 0.0.9",
+  "version": "0.0.10",
+  "description": "Cloud57 Text Editor (drivetexteditor) Version 0.0.10",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
@@ -11,14 +11,15 @@
     "type": "git",
     "url": "git+https://github.com/cloud57-de/drivetexteditor.git"
   },
-  "author": "",
-  "license": "",
   "devDependencies": {
-    "copy-webpack-plugin": "^4.2.1",
-    "drive-apps-util": "^1.1.1",
-    "uglifyjs": "^2.4.11",
-    "upath": "^1.1.0",
     "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.4"
+    "webpack-dev-server": "^2.9.4",
+    "copy-webpack-plugin": "^4.2.1",
+    "uglifyjs": "^2.4.11"
+  },
+  "dependencies": {
+    "drive-apps-util": "^1.1.1",
+    "dot": "^1.1.2",
+    "upath": "^1.1.0"
   }
 }

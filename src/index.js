@@ -1,6 +1,7 @@
 // Imports ******************************************
 
 import DriveAppsUtil from 'drive-apps-util';
+import dot from 'dot';
 
 // Data ******************************************
 
@@ -48,26 +49,22 @@ function showLoginError(msg){
     }
 }
 
-// Start/Entrypoint ******************************************
-
-$(function() {
-    $("#info").html("Please wait...");
-    // ACE
+function initACE(){
     $('#editor').css("visibility","hidden");
     editor = ace.edit("editor");
     editor.renderer.setShowGutter(true);
     editor.setShowPrintMargin(false);
     editor.setOption("wrap", true);
     editor.setOption("indentedSoftWrap", false);
-    // Bind functions
+}
+
+// Start/Entrypoint ******************************************
+
+$(function() {
+    $("#info").html("Please wait...");
+    initACE();
     // Save...
     $('#sbtn').bind("click",saveFile);
-    // Open...
-    $("#opentexteditor").bind("click",function(){
-        $('#editor').css('visibility','visible');
-        $('#dialog').remove();
-        focusEditor()
-    })
     // Check params
     let state = getParam("state");
     if (state == undefined){
@@ -84,6 +81,13 @@ $(function() {
 // Init and execute ******************************************
 
 function initClientStandalone() {
+    $('#main').html( (dot.template( $('#t_oldmain').html() ))({}) );
+    $("#opentexteditor").bind("click",function(){
+        $('#editor').css('visibility','visible');
+        $('#dialog').remove();
+        focusEditor()
+    })
+    initACE();
     uiHideInfo();
     uiShowDesktop();
     editor.gotoLine(0);
