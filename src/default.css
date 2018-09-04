@@ -1,3 +1,5 @@
+/* Default */
+
 body {
     background-color: #e0e0e0;
 }
@@ -25,83 +27,37 @@ body {
     cursor : pointer;
 }
 
-.wt {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 400px;
-    margin-left: -200px;
+.info {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin: auto;
+    width: 50%;
+    height: 10%;
     text-align: center;
     visibility: visible;
 }
 
-.dsk {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    margin: auto;
-    margin-top:4px;
-    visibility: hidden;
-}
-
-.fn {
+.fn { // filename
     border: solid 1px #808080;
     padding: 4px;
     margin-right: 4px;
 }
 
-.tffn {
+.tffn { // textfieldfilename
     background-color: #b0b0b0;
     padding-left:8px;
 }
 
-.btn {
-    padding: 4px;
-    border: solid 1px #808080;
+.sbtn { // savebutton
+    // color: #ffffff;
+    background-color: #c0c0c0;
 }
 
-.sbtn {
-    color: #ffffff;
-    background-color: #b0b0b0;
-}
-
-.btn:hover {
-    cursor: pointer;
-}
-
-.top {
-    position: relative;
-    text-align: right;
-    margin-bottom: 4px;
-}
-
-.bot {
-    margin-top: 8px;
-    margin-left: 8px;
-    margin-right:8px;
-}
-
-.stl {
+.stl { // savetextline
     float: left;
-}
-
-.str {
-    float: right;
-}
-
-.impds {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    margin: auto;
 }
 
 /* ACE */

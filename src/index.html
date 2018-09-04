@@ -22,7 +22,7 @@
 			      <div class="mdl-layout__header-row headerbgc">
 				        <div id="title" class="ptr">
 							<span id="appname" class="mdl-layout-title">Cloud57 Text Editor</span>
-							<div class="mdl-tooltip mdl-tooltip--bottom" for="appname">Version 0.0.10</div>
+							<div class="mdl-tooltip mdl-tooltip--bottom" for="appname">Version 0.0.11</div>
 						</div>
 						<div class="mdl-layout-spacer"></div>
 						<div class="mdl-textfield mdl-js-textfield">
@@ -30,7 +30,7 @@
 					    </div>
 						<div>&nbsp;&nbsp;&nbsp;</div>
 				        <div id="actions">
-						  <button id="sbtn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect sbtn">
+						  <button id="sbtn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect sbtn" disabled>
 							  SAVE
 						  </button>
 						  <div class="mdl-tooltip" for="bt_save_svg">Save your changes</div>
@@ -42,6 +42,7 @@
 			      </div>
 		    </header>
 			<main id="main" class="mdl-layout__content">
+				<div id="info" class="info fnt"></div>
 				<div id="editor"></div>
 			</main>
 			<footer class="mdl-mini-footer footerbgc">
@@ -69,27 +70,19 @@
 	</div>
 </body>
 
-<template id="t_oldmain">
-	<div id="info" class="wt fnt"></div>
-	<div id="desktop">
-		<div id="editor"></div>
-	</div>
-	<div>&nbsp;</div>
-	<div>&nbsp;</div>
-	<div>
-		<dialog id="dialog" class="mdl-dialog" style="opacity:1.0">
-		  <h4 class="mdl-dialog__title">Information!</h4>
-		  <div class="mdl-dialog__content">
-			<p>
-			  You are using Cloud57 Text Editor in standalone-mode.
-			  Saving your content is currently not possible.
-			</p>
-		  </div>
-		  <div class="mdl-dialog__actions">
-			<button id="opentexteditor" type="button" class="mdl-button">Open Text Editor</button>
-		  </div>
-		</dialog>
-	</div>
+<template id="t_dialog">
+	<dialog id="dialog" class="mdl-dialog" style="opacity:1.0;margin-top:32px;">
+	  <h4 class="mdl-dialog__title">Information!</h4>
+	  <div class="mdl-dialog__content">
+		<p>
+		  You are using Cloud57 Text Editor in standalone-mode.
+		  Saving your content is currently not possible.
+		</p>
+	  </div>
+	  <div class="mdl-dialog__actions">
+		<button id="opentexteditor" type="button" class="mdl-button">Open Text Editor</button>
+	  </div>
+	</dialog>
 </template>
 
 </html>
