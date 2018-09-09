@@ -23,6 +23,10 @@ function getParam(name) {
     return (new URL(window.location.href)).searchParams.get(name);
 }
 
+function showLoader(){
+    $('#info').html("<div class='loader'/>");
+}
+
 function showLoginError(msg){
     if( msg == "popup_blocked_by_browser"){
         $("#info").html("Login error!<br><span class='red'>" + msg + "</span><br><br>Allow popups and redirects and reload page!");
@@ -47,7 +51,7 @@ function initACE(){
 // Start/Entrypoint ******************************************
 
 $(function() {
-    $("#info").html("Please wait...");
+    showLoader();
     $('#sbtn').bind("click",saveFile);
     switch( getParam("state") ){
         case null:
@@ -70,19 +74,20 @@ $(function() {
 // Init and execute ******************************************
 
 function initClientStandalone() {
-    $('#fn').prop('disabled', true);
-    $('#fn').prop('disabled', true);
-    $('#stl').html("Standalone-mode");
-
-    $('#info').remove();
-    $('#main').append( $('#t_dialog').html() );
-    $('#dialog').show();
-    $("#opentexteditor").bind("click",function(){
-        $('#editor').css('visibility','visible');
-        $('#dialog').remove();
-        editor.focus();
-    })
-    initACE();
+    let f = function(){
+        $('#stl').html("Standalone-mode");
+        $('#fn').prop('disabled', true);
+        $('#info').empty();
+        $('#main').append( $('#t_dialog').html() );
+        $('#dialog').show();
+        $("#opentexteditor").bind("click",function(){
+            $('#editor').css('visibility','visible');
+            $('#dialog').remove();
+            editor.focus();
+        })
+        initACE();
+    }
+    setTimeout(f,2048); // Wait some time to enjoy the loader :)
 }
 
 function initClientInstall(){
@@ -115,8 +120,6 @@ function initClientStandard(){
                     id = state.folderId;
                     createFile();
                 }
-                $('#info').remove();
-                $('#sbtn').prop("disabled",false);
             } catch(e) {
                 $("#info").html("Error!<br><span class='red'>" + e + "</span><br><br>The URL seems to be incorrect.");
             }
@@ -143,6 +146,8 @@ function showFileContent() {
                     editor.gotoLine(0);
                     editor.focus();
                     $('#editor').css("visibility","visible");
+                    $('#info').empty();
+                    $('#sbtn').prop("disabled",false);
                     setTimeout(function(){editor.resize()},128);
                 },
                 function(err){
@@ -167,6 +172,8 @@ function createFile(){
     $('#fn').val(meta.name);
     driveAppsUtil.createDocument(meta,"").then(
         function(resp){
+            $('#info').empty();
+            $('#sbtn').prop('disabled', false);
             id = resp.id;
             editor.gotoLine(0);
             editor.focus();
@@ -182,6 +189,8 @@ function createFile(){
 }
 
 function saveFile(){
+    showLoader();
+    $('#editor').css('visibility','hidden');
     let currentname = $('#fn').val();
     let meta = {
         name : currentname,
@@ -193,6 +202,8 @@ function saveFile(){
     driveAppsUtil.updateDocument(id, JSON.stringify(meta), content).then(
         function(resp){
             $('#stl').html("File saved.");
+            $('#editor').css('visibility','visible');
+            $('#info').empty();
             setTimeout(function() {
                 $('#stl').html("&nbsp;");
                 $('#sbtn').prop('disabled', false);

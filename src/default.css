@@ -88,3 +88,24 @@ body {
     font-family: courier;
     font-size: 16px;
 }
+
+/* Loader */
+
+.loader {
+  position: relative;
+  top: -24px;
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  border: 8px solid #b0b0b0;
+  border-radius: 50%;
+  border-top-color: #606060;
+  animation: load 1s ease-in-out infinite;
+  -webkit-animation: load 1s ease-in-out infinite;
+}
+@keyframes load {
+  to { -webkit-transform: rotate(360deg); }
+}
+@-webkit-keyframes load {
+  to { -webkit-transform: rotate(360deg); }
+}

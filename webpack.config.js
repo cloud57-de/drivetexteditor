@@ -4,7 +4,7 @@ var SRC_DIR = path.resolve(__dirname,"src");
 var DIST_DIR = path.resolve(__dirname,"dist");
 
 const webpack = require('webpack');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const UglifyPlugin = require('uglifyes-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var config = {
@@ -15,7 +15,7 @@ var config = {
         publicPath: "/"
     },
     plugins: [
-        new UglifyJSPlugin({
+        new UglifyPlugin({
             test: /\.js?/,
             include: SRC_DIR,
         }),
