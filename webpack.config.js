@@ -9,9 +9,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var config = {
     entry: SRC_DIR + "/index.js",
-    output:{
+    output: {
         path : DIST_DIR,
-        filename : "dte.js",
+        filename : "dte.min.js",
         publicPath: "/"
     },
     plugins: [
