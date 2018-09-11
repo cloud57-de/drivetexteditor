@@ -40,19 +40,13 @@ body {
     visibility: visible;
 }
 
-.fn { // filename
-    border: solid 1px #808080;
-    padding: 4px;
-    margin-right: 4px;
-}
-
-.tffn { // textfieldfilename
+.fn input { // filename
     background-color: #b0b0b0;
-    padding-left:8px;
+    padding-left: 8px;
+    color: #ffffff;
 }
 
 .sbtn { // savebutton
-    // color: #ffffff;
     background-color: #c0c0c0;
 }
 

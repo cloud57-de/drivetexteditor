@@ -10,13 +10,34 @@ import driveappsutil from './mod_driveappsutil';
 function initClientStandalone() {
     let f = function(){
         $('#stl').html("Standalone-mode");
-        $('#fn').prop('disabled', true);
         $('#info').empty();
+        // Information dialog
         $('#main').append( $('#t_dialog').html() );
         $('#dialog').show();
+        // Open button
         $("#opentexteditor").bind("click",function(){
+            // Disable old save function
+            $('#sbtn').unbind();
+            $('#sbtn').prop('disabled', false);
+            // Get data from the local storage
+            let lsname = 'Cloud57TextEditorLocalStorage';
+            $('#fn').val('Textfile in your local storage');
+            $('#fn').prop('disabled',true);
+            $('#fn').css('color','#f0f0f0');
+            $('#sbtn').css('color','#f0f0f0');
+            // New save function
+            $('#sbtn').bind("click",function(){
+                localStorage.setItem(lsname,editor.getValue());
+                editor.focus();
+            });
+            let lsitem = localStorage.getItem(lsname);
+            if (lsitem != null){
+                editor.setValue(lsitem);
+            }
+            // Open editor
             $('#editor').css('visibility','visible');
             $('#dialog').remove();
+            editor.gotoLine(0);
             editor.focus();
         })
         editor.init();
@@ -54,6 +75,10 @@ function initClientStandard(){
                     let id = state.folderId;
                     o.createFile(id);
                 }
+                $('#sbtn').prop('disabled', false);
+                $('#fn').prop('disabled', false);
+                $('#fn').css('color','#f0f0f0');
+                $('#sbtn').css('color','#f0f0f0');
             } catch(e) {
                 $("#info").html("Error!<br><span class='red'>" + e + "</span><br><br>The URL seems to be incorrect.");
             }

@@ -13,6 +13,10 @@ function init(){
     editor.setOption("indentedSoftWrap", false);
 }
 
+function getValue(){
+    return editor.getValue();
+}
+
 function setValue(data){
     editor.setValue(data);
 };
@@ -27,10 +31,6 @@ function focus(){
 
 function resize(){
     editor.resize();
-}
-
-function getValue(){
-    return editor.getValue();
 }
 
 export default {
