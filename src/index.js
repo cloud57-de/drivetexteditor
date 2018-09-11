@@ -6,6 +6,9 @@ import c from './mod_client';
 import o from './mod_operations';
 import h from './mod_helper';
 
+import './index.html';
+import './favicon.ico';
+
 $(function(){
     h.showLoader();
     $('#sbtn').bind("click",o.saveFile);

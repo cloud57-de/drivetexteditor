@@ -1,25 +1,21 @@
 {
-  "name": "drivetexteditor",
-  "version": "0.0.13",
-  "description": "Cloud57 Text Editor (drivetexteditor) Version 0.0.13",
-  "scripts": {
-    "clean": "rm -rf ./dist/*",
-    "build": "webpack -p",
-    "server": "webpack -d && webpack-dev-server --mode development --content-base ./src --watch --hot"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cloud57-de/drivetexteditor.git"
-  },
-  "devDependencies": {
-    "copy-webpack-plugin": "^4.5.2",
-    "uglify-js-es6": "^2.8.9",
-    "uglifyes-webpack-plugin": "^0.4.3",
-    "webpack": "^4.17.2",
-    "webpack-cli": "^3.1.0"
-  },
-  "dependencies": {
-    "dot": "^1.1.2",
-    "drive-apps-util": "^1.1.2"
-  }
+    "name": "drivetexteditor",
+    "version": "0.0.14",
+    "description": "Cloud57 Text Editor (drivetexteditor) Version 0.0.14",
+    "scripts": {
+        "clean": "rm -rf ./dist/*",
+        "build": "parcel build ./src/index.js --public-url ./",
+        "server": "parcel ./src/index.html --port 8080"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cloud57-de/drivetexteditor.git"
+    },
+    "devDependencies": {
+        "parcel": "^1.9.7"
+    },
+    "dependencies": {
+        "dot": "^1.1.2",
+        "drive-apps-util": "^1.1.2"
+    }
 }
