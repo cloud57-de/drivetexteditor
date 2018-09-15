@@ -16,9 +16,13 @@ function showFileContent(id) {
                     editor.setValue(data);
                     editor.gotoLine(0);
                     editor.focus();
-                    $('#editor').css("visibility","visible");
                     $('#info').empty();
-                    $('#sbtn').prop("disabled",false);
+                    $('#editor').css("visibility","visible");
+                    $('#fn').prop('disabled', false);
+                    $('#fn').css('color','#f0f0f0');
+                    $('#sbtn').bind("click",saveFile);
+                    $('#sbtn').css('color','#f0f0f0');
+                    $('#sbtn').prop('disabled', false);
                     setTimeout(function(){editor.resize()},128);
                 },
                 function(err){

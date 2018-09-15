@@ -74,11 +74,6 @@ function initClientStandard(){
                     let id = state.folderId;
                     o.createFile(id);
                 }
-                $('#fn').prop('disabled', false);
-                $('#fn').css('color','#f0f0f0');
-                $('#sbtn').bind("click",o.saveFile);
-                $('#sbtn').css('color','#f0f0f0');
-                $('#sbtn').prop('disabled', false);
             } catch(e) {
                 $("#info").html("Error!<br><span class='red'>" + e + "</span><br><br>The URL seems to be incorrect.");
             }
