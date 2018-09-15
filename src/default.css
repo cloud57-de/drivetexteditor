@@ -9,9 +9,13 @@ body {
 }
 
 .footerbgc {
-    color: #ffffff;
     background-color: #909090;
-    padding: 16px;
+    padding: 24px;
+}
+
+.footerlnk, a, a:visited, a:hover, a:link, a:focus {
+    color: #ffffff;
+    text-decoration: none;
 }
 
 .fnt {
@@ -41,17 +45,12 @@ body {
 }
 
 .fn input { // filename
-    background-color: #b0b0b0;
-    padding-left: 8px;
     color: #ffffff;
+    background-color: #b0b0b0;
 }
 
 .sbtn { // savebutton
     background-color: #c0c0c0;
-}
-
-.stl { // savetextline
-    float: left;
 }
 
 /* ACE */

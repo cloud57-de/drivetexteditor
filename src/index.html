@@ -22,22 +22,22 @@
 			      <div class="mdl-layout__header-row headerbgc">
 				        <div id="title" class="ptr">
 							<span id="appname" class="mdl-layout-title">Cloud57 Text Editor</span>
-							<div class="mdl-tooltip mdl-tooltip--bottom" for="appname">Version 0.1</div>
+							<div class="mdl-tooltip mdl-tooltip--bottom" for="appname">Version 0.1.1</div>
 						</div>
 						<div class="mdl-layout-spacer"></div>
 						<div class="mdl-textfield mdl-js-textfield">
-						    <input class="mdl-textfield__input tffn" type="text" id="fn" disabled>
+						    <input class="mdl-textfield__input" type="text" id="fn" disabled>
 					    </div>
-						<div>&nbsp;&nbsp;&nbsp;</div>
-				        <div id="actions">
-						  <button id="sbtn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect sbtn" disabled>
-							  SAVE
-						  </button>
-						  <div class="mdl-tooltip" for="bt_save_svg">Save your changes</div>
+				        <div>
+							&nbsp;
+							<button id="sbtn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect sbtn" disabled>
+							SAVE
+						  	</button>
+						  	<div class="mdl-tooltip" for="bt_save_svg">Save your changes</div>
 					  	</div>
-				        <div class="mdl-layout-spacer"></div>
+						<div class="mdl-layout-spacer"></div>
 				        <div id="userprofile" style="visibility:hidden">
-				          <img id="userimage" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"></img>
+				        	<img id="userimage" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"></img>
 				        </div>
 			      </div>
 		    </header>
@@ -47,23 +47,21 @@
 			</main>
 			<footer class="mdl-mini-footer footerbgc">
 				<div class="mdl-mini-footer__left-section">
-				    <ul class="mdl-mini-footer__link-list">
-				    	<li>
-							<a id="lnkcloud57site" target="_blank" href="https://www.cloud57.de" class="footer-nav">Powered by Cloud 57</a> and <a id="lnkacesite" target="_blank" href="https://ace.c9.io/">ACE</a>
-						</li>
-						<li>
-							<span id="stl" class="stl red">&nbsp;</span>
-						</li>
-				    </ul>
+					<div class="footerlnk">
+						Powered by <a id="lnkcloud57site" target="_blank" href="https://www.cloud57.de">Cloud 57</a> and <a id="lnkacesite" target="_blank" href="https://ace.c9.io/">ACE</a>
+					</div>
 					<div class="mdl-tooltip mdl-tooltip--top" for="lnkcloud57site">Go to our website</div>
 					<div class="mdl-tooltip mdl-tooltip--top" for="lnkacesite">Go to the ACE website</div>
 				</div>
+				<div class="mdl-layout-spacer"></div>
+					<span id="stl" class="red">&nbsp;</span>
+				<div class="mdl-layout-spacer"></div>
 				<div class="mdl-mini-footer__right-section">
-					<ul class="mdl-mini-footer__link-list">
-				    	<li><a id="lnksupport" href="https://github.com/cloud57-de/drivetexteditor/issues" target="_blank">Support</a> | <a id="lnkimp" href="https://www.cloud57.de/?showImp" class="footer-nav" target="_blank">Impressum | Datenschutz</a></li>
-				  	</ul>
-					<div class="mdl-tooltip mdl-tooltip--top" for="lnksupport">Create new feature requests, bug reports or ask for help</div>
-					<div class="mdl-tooltip mdl-tooltip--top" for="lnkimp">Read our impress and about our data protection</div>
+					<div class="footerlnk">
+						<a id="lnksupport" href="https://github.com/cloud57-de/drivetexteditor/issues" target="_blank">Support</a> | <a id="lnkimp" href="https://www.cloud57.de/?showImp" target="_blank">Impressum | Datenschutz</a>
+						<div class="mdl-tooltip mdl-tooltip--top" for="lnksupport">Create new feature requests, bug reports or ask for help</div>
+						<div class="mdl-tooltip mdl-tooltip--top" for="lnkimp">Read our impress and about our data protection</div>
+					</div>
 				</div>
 			</footer>
 		</div>
