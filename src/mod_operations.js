@@ -40,7 +40,6 @@ function createFile(id){
         name : "NewTextfile",
         parents : [id]
     };
-    $('#fn').val(meta.name);
     driveAppsUtil.createDocument(meta,"").then(
         function(resp){
             let id = resp.id;

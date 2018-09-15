@@ -16,20 +16,18 @@ function initClientStandalone() {
         $('#dialog').show();
         // Open button
         $("#opentexteditor").bind("click",function(){
-            // Disable old save function
-            $('#sbtn').unbind();
-            $('#sbtn').prop('disabled', false);
-            // Get data from the local storage
             let lsname = 'Cloud57TextEditorLocalStorage';
             $('#fn').val('Textfile in your local storage');
             $('#fn').prop('disabled',true);
             $('#fn').css('color','#f0f0f0');
             $('#sbtn').css('color','#f0f0f0');
-            // New save function
+            // Save function
             $('#sbtn').bind("click",function(){
                 localStorage.setItem(lsname,editor.getValue());
                 editor.focus();
             });
+            $('#sbtn').prop('disabled', false);
+            // Get data from the local storage
             let lsitem = localStorage.getItem(lsname);
             if (lsitem != null){
                 editor.setValue(lsitem);
@@ -64,6 +62,7 @@ function initClientStandard(){
         driveappsutil.login().then(function(user){
             try{
                 $('#userimage').attr("src",gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getImageUrl());
+                $('#userprofile').css("visibility","visible");
                 editor.init();
                 let state = JSON.parse(h.getParam("state"));
                 if (state == undefined) return;
@@ -75,10 +74,11 @@ function initClientStandard(){
                     let id = state.folderId;
                     o.createFile(id);
                 }
-                $('#sbtn').prop('disabled', false);
                 $('#fn').prop('disabled', false);
                 $('#fn').css('color','#f0f0f0');
+                $('#sbtn').bind("click",o.saveFile);
                 $('#sbtn').css('color','#f0f0f0');
+                $('#sbtn').prop('disabled', false);
             } catch(e) {
                 $("#info").html("Error!<br><span class='red'>" + e + "</span><br><br>The URL seems to be incorrect.");
             }
