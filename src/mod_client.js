@@ -9,24 +9,24 @@ import driveappsutil from './mod_driveappsutil';
 
 function initClientStandalone() {
     let f = function(){
-        $('#stl').html("Standalone-mode");
         $('#info').empty();
+        $('#stl').html("Standalone-mode");
         // Information dialog
         $('#main').append( $('#t_dialog').html() );
         $('#dialog').show();
         // Open button
         $("#opentexteditor").bind("click",function(){
             let lsname = 'Cloud57TextEditorLocalStorage';
-            $('#fn').val('Textfile in your local storage');
             $('#fn').prop('disabled',true);
             $('#fn').css('color','#f0f0f0');
-            $('#sbtn').css('color','#f0f0f0');
+            $('#fn').val('Textfile in your local storage');
             // Save function
+            $('#sbtn').prop('disabled', false);
+            $('#sbtn').css('color','#f0f0f0');
             $('#sbtn').bind("click",function(){
                 localStorage.setItem(lsname,editor.getValue());
                 editor.focus();
             });
-            $('#sbtn').prop('disabled', false);
             // Get data from the local storage
             let lsitem = localStorage.getItem(lsname);
             if (lsitem != null){
@@ -63,7 +63,6 @@ function initClientStandard(){
             try{
                 $('#userimage').attr("src",gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getImageUrl());
                 $('#userprofile').css("visibility","visible");
-                editor.init();
                 let state = JSON.parse(h.getParam("state"));
                 if (state == undefined) return;
                 if (state.action == "open") {

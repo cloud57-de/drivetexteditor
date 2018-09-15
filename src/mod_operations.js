@@ -10,19 +10,21 @@ function showFileContent(id) {
     driveAppsUtil.getDocumentMeta(id).then(
         function(metadata){
             let _id = metadata.id;
-            $('#fn').val(metadata.name);
+            let _name = metadata.name;
             driveAppsUtil.getDocumentContent(_id).then(
                 function(data){
+                    editor.init();
                     editor.setValue(data);
                     editor.gotoLine(0);
                     editor.focus();
                     $('#info').empty();
-                    $('#editor').css("visibility","visible");
                     $('#fn').prop('disabled', false);
                     $('#fn').css('color','#f0f0f0');
-                    $('#sbtn').bind("click",saveFile);
-                    $('#sbtn').css('color','#f0f0f0');
+                    $('#fn').val(_name);
                     $('#sbtn').prop('disabled', false);
+                    $('#sbtn').css('color','#f0f0f0');
+                    $('#sbtn').bind("click",saveFile);
+                    $('#editor').css("visibility","visible");
                     setTimeout(function(){editor.resize()},128);
                 },
                 function(err){
@@ -78,6 +80,7 @@ function saveFile(){
     }
     let content = editor.getValue();
     $('#sbtn').prop('disabled', true);
+    $('#fn').prop('disabled', true);
     $('#stl').html("Saving file, please wait...");
     driveAppsUtil.updateDocument(id, JSON.stringify(meta), content).then(
         function(resp){
@@ -87,6 +90,7 @@ function saveFile(){
             setTimeout(function() {
                 $('#stl').html("&nbsp;");
                 $('#sbtn').prop('disabled', false);
+                $('#fn').prop('disabled', false);
             }, 1000);
         },
         function(err){
