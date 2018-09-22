@@ -22,7 +22,7 @@
 			      <div class="mdl-layout__header-row headerbgc">
 				        <div id="title" class="ptr">
 							<span id="appname" class="mdl-layout-title">Cloud57 Text Editor</span>
-							<div class="mdl-tooltip mdl-tooltip--bottom" for="appname">Version 0.1.3</div>
+							<div class="mdl-tooltip mdl-tooltip--bottom" for="appname">Version 0.2</div>
 						</div>
 						<div class="mdl-layout-spacer"></div>
 						<div class="mdl-textfield mdl-js-textfield">
@@ -68,19 +68,40 @@
 	</div>
 </body>
 
-<template id="t_dialog">
-	<dialog id="dialog" class="mdl-dialog" style="opacity:1.0;margin-top:32px;">
-	  <h4 class="mdl-dialog__title">Information!</h4>
-	  <div class="mdl-dialog__content">
-		<p>
-		  You are using Cloud57 Text Editor in standalone-mode.
-		  Currently you can save one file in your browser's local storage.
-		</p>
-	  </div>
-	  <div class="mdl-dialog__actions">
-		<button id="opentexteditor" type="button" class="mdl-button">Open Text Editor</button>
-	  </div>
+<template id="t_dialog_info">
+	<dialog id="dialog_info" class="mdl-dialog" style="opacity:1.0;margin-top:32px;margin-bottom:32px;">
+	  	<h4 class="mdl-dialog__title">Information</h4>
+		<div class="mdl-dialog__content">
+			<p>
+			  You are using Cloud57 Text Editor in standalone-mode.
+			  Files will be loaded from and saved to your browser's local storage.
+			</p>
+	  	</div>
+	  	<div class="mdl-dialog__actions">
+			<button id="openfiles" type="button" class="mdl-button">Open</button>
+			<button id="newfile" type="button" class="mdl-button">New</button>
+		</div>
 	</dialog>
+</template>
+
+<template id="t_dialog_files">
+	<dialog id="dialog_files" class="mdl-dialog" style="opacity:1.0;margin-top:32px;margin-bottom:32px;">
+	  	<h4 class="mdl-dialog__title">Open</h4>
+		<div class="mdl-dialog__content">
+			Select a file from your local storage.
+			<br>
+			<ul id="fileslist" class="demo-list-control mdl-list"></ul>
+		</div>
+	</dialog>
+</template>
+
+<template id="t_file">
+	<li class="mdl-list__item">
+	  <span class="mdl-list__item-primary-content">
+		<i id="{{=it.id}}" class="material-icons mdl-list__item-avatar ptr">subject</i>
+		<span>{{=it.name}}</span>
+	  </span>
+	</li>
 </template>
 
 </html>
