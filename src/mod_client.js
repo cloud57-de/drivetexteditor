@@ -25,11 +25,26 @@ if ( lsitem == null || lsitem == undefined ){
     localStorage.setItem(lsname, JSON.stringify(lsitemobj));
     lsfiles = lsitemobj.files;
 } else {
-    lsitemobj = JSON.parse(lsitem);
-    if( lsitemobj.version != "0.2.0"){
-        // Do conversions (if neccessary) here...
+    try{
+        lsitemobj = JSON.parse(lsitem);
+        if( lsitemobj.version != "0.2.0"){
+            // Do conversions (if neccessary) here...
+        }
+        lsfiles = lsitemobj.files;
+    } catch(e) {
+        // Conversion of local storage content from Cloud57 Text Editor version 0.1.0
+        lsitemobj = {
+            "name": lsname,
+            "version": "0.2.0",
+            "files": [{
+                "id": "file_" + Date.now(),
+                "name": "Textfile in your local storage",
+                "content": lsitem
+            }]
+        }
+        localStorage.setItem(lsname, JSON.stringify(lsitemobj));
+        lsfiles = lsitemobj.files;
     }
-    lsfiles = lsitemobj.files;
 }
 
 function initClientStandalone() {
