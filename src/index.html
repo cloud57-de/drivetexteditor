@@ -22,7 +22,7 @@
 			      <div class="mdl-layout__header-row headerbgc">
 				        <div id="title" class="ptr">
 							<span id="appname" class="mdl-layout-title">Cloud57 Text Editor</span>
-							<div class="mdl-tooltip mdl-tooltip--bottom" for="appname">Version 0.2</div>
+							<div class="mdl-tooltip mdl-tooltip--bottom" for="appname">Version 0.2.1</div>
 						</div>
 						<div class="mdl-layout-spacer"></div>
 						<div class="mdl-textfield mdl-js-textfield">
@@ -69,7 +69,7 @@
 </body>
 
 <template id="t_dialog_info">
-	<dialog id="dialog_info" class="mdl-dialog" style="opacity:1.0;margin-top:32px;margin-bottom:32px;">
+	<dialog id="dialog_info" class="mdl-dialog" style="opacity:1.0;margin-top:32px;margin-bottom:32px;width:85%">
 	  	<h4 class="mdl-dialog__title">Information</h4>
 		<div class="mdl-dialog__content">
 			<p>
@@ -78,17 +78,29 @@
 			</p>
 	  	</div>
 	  	<div class="mdl-dialog__actions">
+			<button id="deletefiles" type="button" class="mdl-button">Delete</button>
 			<button id="openfiles" type="button" class="mdl-button">Open</button>
 			<button id="newfile" type="button" class="mdl-button">New</button>
 		</div>
 	</dialog>
 </template>
 
-<template id="t_dialog_files">
-	<dialog id="dialog_files" class="mdl-dialog" style="opacity:1.0;margin-top:32px;margin-bottom:32px;">
+<template id="t_dialog_openfiles">
+	<dialog id="dialog_files" class="mdl-dialog" style="opacity:1.0;margin-top:32px;margin-bottom:32px;width:85%">
 	  	<h4 class="mdl-dialog__title">Open</h4>
 		<div class="mdl-dialog__content">
-			Select a file from your local storage.
+			Select a file from your browser's local storage to open.
+			<br>
+			<ul id="fileslist" class="demo-list-control mdl-list"></ul>
+		</div>
+	</dialog>
+</template>
+
+<template id="t_dialog_deletefiles">
+	<dialog id="dialog_files" class="mdl-dialog" style="opacity:1.0;margin-top:32px;margin-bottom:32px;width:85%">
+	  	<h4 class="mdl-dialog__title">Delete</h4>
+		<div class="mdl-dialog__content">
+			Select a file from your browser's local storage to delete.
 			<br>
 			<ul id="fileslist" class="demo-list-control mdl-list"></ul>
 		</div>
@@ -98,7 +110,7 @@
 <template id="t_file">
 	<li class="mdl-list__item">
 	  <span class="mdl-list__item-primary-content">
-		<i id="{{=it.id}}" class="material-icons mdl-list__item-avatar ptr">subject</i>
+		<i id="{{=it.id}}" class="material-icons mdl-list__item-avatar ptr">{{=it.icon}}</i>
 		<span>{{=it.name}}</span>
 	  </span>
 	</li>

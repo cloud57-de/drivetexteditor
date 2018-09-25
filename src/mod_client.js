@@ -8,6 +8,10 @@ import o from './mod_operations';
 import editor from './mod_editor';
 import driveappsutil from './mod_driveappsutil';
 
+//
+// Local storage (standalone-mode)
+//
+
 let lsname = 'Cloud57TextEditorLocalStorage';
 let lsitem = localStorage.getItem(lsname);
 let lsitemobj = undefined;
@@ -15,7 +19,8 @@ let lsfiles = undefined;
 if ( lsitem == null || lsitem == undefined ){
     lsitemobj = {
         "name": lsname,
-        "version": "0.2.0",
+        "version": "0.2.0", // This is the version of the local storage format,
+                            // not the version of the Cloud57 Text Editor
         "files": [{
             "id": "file_" + Date.now(),
             "name": "ReadMeFirst",
@@ -47,6 +52,31 @@ if ( lsitem == null || lsitem == undefined ){
     }
 }
 
+//
+// Local helper
+//
+
+function createFileslist(icon){
+    $('#fileslist').empty();
+    if (lsfiles.length > 0) {
+        let t = dot.template( $('#t_file').html() );
+        lsfiles.forEach(function(f){
+            let r = t({
+                id: f.id,
+                name: f.name,
+                icon: icon
+            });
+            $('#fileslist').append(r);
+        })
+    } else {
+        $('#fileslist').html("<div class='red'><i>Currently there are no files in your browser's local storage.</i></div>");
+    }
+}
+
+//
+// The clients
+//
+
 function initClientStandalone() {
     let f = function(){
         $('#info').empty();
@@ -56,12 +86,13 @@ function initClientStandalone() {
         $('#dialog_info').show();
         // Bind function "New"
         $("#newfile").bind("click",function(){
+            // Prepare GUI
             $('#fn').prop('disabled',false);
             $('#fn').css('color','#f0f0f0');
             $('#fn').val('NewTextfile');
-            // Save function
             $('#sbtn').prop('disabled', false);
             $('#sbtn').css('color','#f0f0f0');
+            // Bind function to save a text to the browser's local storage
             $('#sbtn').bind("click",function(){
                 lsfiles.push({
                     "id" : "file_" + Date.now(),
@@ -77,12 +108,13 @@ function initClientStandalone() {
             $('#dialog_info').remove();
             editor.gotoLine(0);
             editor.focus();
-        })
+        });
         // Bind function "Open"
         $("#openfiles").bind("click",function(){
-            // Files dialog
             $('#dialog_info').remove();
-            $('#main').append( $('#t_dialog_files').html() );
+            $('#main').append( $('#t_dialog_openfiles').html() );
+            createFileslist("open_in_browser");
+            $('#dialog_files').show();
             // Bind function to open a file from the browser's local storage
             $('#fileslist').bind("click",function(e){
                 let id = e.target.id;
@@ -116,17 +148,30 @@ function initClientStandalone() {
                     })
                 }
             });
-            // Create file list
-            let t = dot.template( $('#t_file').html() );
-            lsfiles.forEach(function(f){
-                let r = t({
-                    id: f.id,
-                    name: f.name
-                });
-                $('#fileslist').append(r);
-            })
-            $('#dialog_files').show();
         });
+        // Bind function "Delete"
+        $("#deletefiles").bind("click",function(){
+            $('#dialog_info').remove();
+            $('#main').append( $('#t_dialog_deletefiles').html() );
+            createFileslist("delete_forever");
+            $('#dialog_files').show();
+            // Bind function to delete a file from the browser's local storage
+            $('#fileslist').bind("click",function(e){
+                let id = e.target.id;
+                if( id.startsWith('file_') ){
+                    lsfiles.forEach(function(f){
+                        if( f.id == id ){
+                            lsfiles.splice(lsfiles.indexOf(f),1);
+
+                        };
+                    });
+                    lsitemobj.files = lsfiles;
+                    localStorage.setItem(lsname, JSON.stringify(lsitemobj));
+                    createFileslist("delete_forever");
+                }
+            });
+        });
+        // Init the editor
         editor.init();
     }
     setTimeout(f,1024); // Wait some time to enjoy the loader :)
