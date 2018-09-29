@@ -6,51 +6,8 @@ import dot from 'dot';
 import h from './mod_helper';
 import o from './mod_operations';
 import editor from './mod_editor';
+import ls from './mod_localstorage';
 import driveappsutil from './mod_driveappsutil';
-
-//
-// Local storage (standalone-mode)
-//
-
-let lsname = 'Cloud57TextEditorLocalStorage';
-let lsitem = localStorage.getItem(lsname);
-let lsitemobj = undefined;
-let lsfiles = undefined;
-if ( lsitem == null || lsitem == undefined ){
-    lsitemobj = {
-        "name": lsname,
-        "version": "0.2.0", // This is the version of the local storage format,
-                            // not the version of the Cloud57 Text Editor
-        "files": [{
-            "id": "file_" + Date.now(),
-            "name": "ReadMeFirst",
-            "content": "This small text comes from your browser's local storage."
-        }]
-    }
-    localStorage.setItem(lsname, JSON.stringify(lsitemobj));
-    lsfiles = lsitemobj.files;
-} else {
-    try{
-        lsitemobj = JSON.parse(lsitem);
-        if( lsitemobj.version != "0.2.0"){
-            // Do conversions (if neccessary) here...
-        }
-        lsfiles = lsitemobj.files;
-    } catch(e) {
-        // Conversion of local storage content from Cloud57 Text Editor version 0.1.0
-        lsitemobj = {
-            "name": lsname,
-            "version": "0.2.0",
-            "files": [{
-                "id": "file_" + Date.now(),
-                "name": "Textfile in your local storage",
-                "content": lsitem
-            }]
-        }
-        localStorage.setItem(lsname, JSON.stringify(lsitemobj));
-        lsfiles = lsitemobj.files;
-    }
-}
 
 //
 // Local helper
@@ -58,9 +15,9 @@ if ( lsitem == null || lsitem == undefined ){
 
 function createFileslist(icon){
     $('#fileslist').empty();
-    if (lsfiles.length > 0) {
+    if (ls.getFiles().length > 0) {
         let t = dot.template( $('#t_file').html() );
-        lsfiles.forEach(function(f){
+        ls.getFiles().forEach(function(f){
             let r = t({
                 id: f.id,
                 name: f.name,
@@ -94,13 +51,12 @@ function initClientStandalone() {
             $('#sbtn').css('color','#f0f0f0');
             // Bind function to save a text to the browser's local storage
             $('#sbtn').bind("click",function(){
-                lsfiles.push({
+                ls.getFiles().push({
                     "id" : "file_" + Date.now(),
                     "name" : $('#fn').val(),
                     "content" : editor.getValue()
                 })
-                lsitemobj.files = lsfiles;
-                localStorage.setItem(lsname,JSON.stringify(lsitemobj));
+                ls.update();
                 editor.focus();
             });
             // Open editor
@@ -119,7 +75,7 @@ function initClientStandalone() {
             $('#fileslist').bind("click",function(e){
                 let id = e.target.id;
                 if( id.startsWith('file_') ){
-                    lsfiles.forEach(function(f){
+                    ls.getFiles().forEach(function(f){
                         if( f.id == id ){
                             $('#fn').prop('disabled',false);
                             $('#fn').css('color','#f0f0f0');
@@ -129,14 +85,13 @@ function initClientStandalone() {
                             $('#sbtn').prop('disabled', false);
                             $('#sbtn').css('color','#f0f0f0');
                             $('#sbtn').bind("click",function(){
-                                lsfiles.forEach(function(f){
+                                ls.getFiles().forEach(function(f){
                                     if( f.id == id ){
                                         f.content = editor.getValue();
                                         f.name = $('#fn').val();
                                     }
                                 })
-                                lsitemobj.files = lsfiles;
-                                localStorage.setItem(lsname,JSON.stringify(lsitemobj));
+                                ls.update();
                                 editor.focus();
                             });
                             // Open editor
@@ -159,14 +114,12 @@ function initClientStandalone() {
             $('#fileslist').bind("click",function(e){
                 let id = e.target.id;
                 if( id.startsWith('file_') ){
-                    lsfiles.forEach(function(f){
+                    ls.getFiles().forEach(function(f){
                         if( f.id == id ){
-                            lsfiles.splice(lsfiles.indexOf(f),1);
-
+                            ls.getFiles().splice(ls.getFiles().indexOf(f),1);
                         };
                     });
-                    lsitemobj.files = lsfiles;
-                    localStorage.setItem(lsname, JSON.stringify(lsitemobj));
+                    ls.update();
                     createFileslist("delete_forever");
                 }
             });
