@@ -1,7 +1,7 @@
 {
     "name": "drivetexteditor",
-    "version": "0.2.2",
-    "description": "Cloud57 Text Editor (drivetexteditor) Version 0.2.2",
+    "version": "0.2.3",
+    "description": "Cloud57 Text Editor (drivetexteditor) Version 0.2.3",
     "scripts": {
         "clean": "rm -rf ./dist/*",
         "build": "parcel build ./src/index.js --public-url ./",

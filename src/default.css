@@ -23,6 +23,11 @@ body {
     font-size: 16px;
 }
 
+.fmetadata {
+    font-size: 0.7em;
+    color: #a0a0a0;
+}
+
 .red {
     color: #ff0000;
 }

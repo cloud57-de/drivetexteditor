@@ -22,7 +22,7 @@
 			      <div class="mdl-layout__header-row headerbgc">
 				        <div id="title" class="ptr">
 							<span id="appname" class="mdl-layout-title">Cloud57 Text Editor</span>
-							<div class="mdl-tooltip mdl-tooltip--bottom" for="appname">Version 0.2.2</div>
+							<div class="mdl-tooltip mdl-tooltip--bottom" for="appname">Version 0.2.3</div>
 						</div>
 						<div class="mdl-layout-spacer"></div>
 						<div class="mdl-textfield mdl-js-textfield">
@@ -111,7 +111,12 @@
 	<li class="mdl-list__item">
 	  <span class="mdl-list__item-primary-content">
 		<i id="{{=it.id}}" class="material-icons mdl-list__item-avatar ptr">{{=it.icon}}</i>
-		<span>{{=it.name}}</span>
+		<span style="display:block">
+			<span class="fmetadata">{{=it.createdate}}</span>
+			<span class="fmetadata">{{=it.filesize}}</span>
+			<br>
+			<span>{{=it.name}}</span>
+		</span>
 	  </span>
 	</li>
 </template>

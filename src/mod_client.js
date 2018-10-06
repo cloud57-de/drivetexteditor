@@ -18,12 +18,31 @@ function createFileslist(icon){
     if (ls.getFiles().length > 0) {
         let t = dot.template( $('#t_file').html() );
         ls.getFiles().forEach(function(f){
-            let r = t({
+            // Basic information
+            let elem = {
                 id: f.id,
                 name: f.name,
                 icon: icon
-            });
-            $('#fileslist').append(r);
+            };
+            // Filesize
+            let fl = f.content.length;
+            if (fl < 1024){
+                elem.filesize = fl + "bytes";
+                if (fl==1) elem.filesize = fl + "byte";
+            }
+            if (fl >= 1024){
+                elem.filesize = Math.ceil( fl / 1024 ) + "kbytes";
+            }
+            // Create date
+            try{
+                let datearr = f.createdate.split("T");
+                let date = datearr[0];
+                elem.createdate = date + " / ";
+            } catch(e){
+                elem.createdate = "";
+            }
+            // And go
+            $('#fileslist').append( t(elem) );
         })
     } else {
         $('#fileslist').html("<div class='red'><i>Currently there are no files in your browser's local storage.</i></div>");
@@ -54,6 +73,7 @@ function initClientStandalone() {
                 ls.getFiles().push({
                     "id" : "file_" + Date.now(),
                     "name" : $('#fn').val(),
+                    "createdate" : new Date(),
                     "content" : editor.getValue()
                 })
                 ls.update();
